@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Test Web App!</title>
+    <style>
+        body {
+            width: 35em;
+            margin: 0 auto;
+            font-family: Tahoma, Verdana, Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to Test Web App!</h1>
+<div id="container"></div>
+<script>
+    const home = 'http://localhost:8888';
+    /**
+     * Послать ajax GET-запрос c помощью Promise.
+     * @param [path = '/'] адрес запроса
+     */
+    function doPromiseGet({path = '/'} = {}) {
+        return fetch(`${home}${path}`, {
+            method: 'GET',
+            mode: 'cors',
+            body: null
+        });
+    }
+
+    function MakeRequest() {
+        return doPromiseGet({
+            path: '/test',
+        })
+            .then((data) => {
+                if (data.status !== 200) {
+                    throw data;
+                }
+                return data.json().then((data) => {
+                    return data.resp;
+                });
+            })
+            .catch((data) => {
+                //TODO draw fatal error
+                console.log('Fatal server error: ', data.message);
+                return;
+            });
+    }
+
+    (async () => {
+        const resp = await MakeRequest();
+
+        const currentDate = new Date();
+        const datetime = "Last Sync: " + currentDate.getDate() + "/"
+            + (currentDate.getMonth() + 1) + "/"
+            + currentDate.getFullYear() + " @ "
+            + currentDate.getHours() + ":"
+            + currentDate.getMinutes() + ":"
+            + currentDate.getSeconds();
+
+        document.getElementById('container').innerHTML = resp + ' ' + datetime;
+    })()
+
+</script>
+</body>
+</html>
