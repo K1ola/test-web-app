@@ -14,7 +14,7 @@
 <h1>Welcome to Test Web App!</h1>
 <div id="container"></div>
 <script>
-    const home = 'http://localhost:8888';
+    const home = 'http://95.171.20.82:8888';
     /**
      * Послать ajax GET-запрос c помощью Promise.
      * @param [path = '/'] адрес запроса
@@ -40,7 +40,6 @@
                 });
             })
             .catch((data) => {
-                //TODO draw fatal error
                 console.log('Fatal server error: ', data.message);
                 return;
             });
